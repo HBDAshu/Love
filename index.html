@@ -184,20 +184,36 @@
         }));
 
         var textAnimate = eval(Jscex.compile("async", function () {
-		    var together = new Date();
-		    together.setFullYear(2019, 8, 9); 			//时间年月日
-		    together.setHours(17);						//小时	
-		    together.setMinutes(30);					//分钟
-		    together.setSeconds(0);					//秒前一位
-		    together.setMilliseconds(7);				//秒第二位
+    var startDate = new Date('2019-08-09'); // Start date
+    var endDate = new Date('2023-10-25'); // Updated end date
 
-		    $("#code").show().typewriter();
-            $("#clock-box").fadeIn(500);
-            while (true) {
-                timeElapse(together);
-                $await(Jscex.Async.sleep(1000));
-            }
-        }));
+    // Function to calculate time elapsed
+    function timeElapse(targetDate) {
+        var current = Date.now();
+        var seconds = Math.floor((targetDate - current) / 1000);
+        var days = Math.floor(seconds / (3600 * 24));
+        var hours = Math.floor((seconds % (3600 * 24)) / 3600);
+        var minutes = Math.floor((seconds % 3600) / 60);
+        var remainingSeconds = seconds % 60;
+
+        // Update the display or message with time remaining
+        $("#clock").html(days + " days " + hours + " hours " + minutes + " minutes " + remainingSeconds + " seconds");
+    }
+
+    // Typewriter effect and clock display
+    $("#code").show().typewriter();
+    $("#clock-box").fadeIn(500);
+
+    // Loop until the specified end date
+    while (endDate.getTime() - Date.now() > 0) {
+        timeElapse(endDate);
+        $await(Jscex.Async.sleep(1000));
+    }
+
+    $("#code").html('<font color="#FF0000"><span class="say">Our journey together has evolved...</span><br><span class="say">I'll always cherish the beautiful moments we shared.</span><br><span class="say">Wishing you happiness and fulfillment.</span>'); // Updated message
+
+}));
+
 
         var runAsync = eval(Jscex.compile("async", function () {
             $await(seedAnimate());
